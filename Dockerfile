@@ -1,15 +1,14 @@
-FROM node:10-alpine
+FROM node:14-alpine
 
 WORKDIR /opt/TediCross/
 
-ADD . .
+COPY . .
 
 RUN npm install --production
 
-# Hack to make the settings file work from the data/ directory
-# Remove this line if you build with the settings file integrated
-RUN ln -s data/settings.yaml settings.yaml
+# The node user (from node:12-alpine) has UID 1000, meaning most people with single-user systems will not have to change UID
+USER node
 
 VOLUME /opt/TediCross/data/
 
-ENTRYPOINT /usr/local/bin/npm start
+ENTRYPOINT /usr/local/bin/npm start -- -c data/settings.yaml

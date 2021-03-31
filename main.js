@@ -5,14 +5,15 @@
  **************************/
 
 // General stuff
+const semver = require("semver");
 const yargs = require("yargs");
 const path = require("path");
-const Logger = require("./lib/Logger");
-const MessageMap = require("./lib/MessageMap");
-const Bridge = require("./lib/bridgestuff/Bridge");
-const BridgeMap = require("./lib/bridgestuff/BridgeMap");
-const Settings = require("./lib/settings/Settings");
-const migrateSettingsToYAML = require("./lib/migrateSettingsToYAML");
+const Logger = require("./src/Logger");
+const MessageMap = require("./src/MessageMap");
+const Bridge = require("./src/bridgestuff/Bridge");
+const BridgeMap = require("./src/bridgestuff/BridgeMap");
+const Settings = require("./src/settings/Settings");
+const migrateSettingsToYAML = require("./src/migrateSettingsToYAML");
 const jsYaml = require("js-yaml");
 const fs = require("fs");
 const R = require("ramda");
@@ -20,11 +21,16 @@ const os = require("os");
 
 // Telegram stuff
 const Telegraf = require("telegraf");
-const telegramSetup = require("./lib/telegram2discord/setup");
+const telegramSetup = require("./src/telegram2discord/setup");
 
 // Discord stuff
 const Discord = require("discord.js");
-const discordSetup = require("./lib/discord2telegram/setup");
+const discordSetup = require("./src/discord2telegram/setup");
+
+if (!semver.gte(process.version, "14.9.0")) {
+	console.log(`TediCross requires at least nodejs 14.9. Your version is ${process.version}`);
+	process.exit();
+}
 
 /*************
  * TediCross *
@@ -70,15 +76,21 @@ if (R.not(R.equals(rawSettingsObj, newRawSettingsObj))) {
 	} catch (err) {
 		if (err.code === "EACCES") {
 			// The settings file is not writable. Give a warning
-			logger.warn("Changes to TediCross' settings have been introduced. Your settings file it not writable, so it could not be automatically updated. TediCross will still work, with the modified settings, but you will see this warning until you update your settings file");
+			logger.warn(
+				"Changes to TediCross' settings have been introduced. Your settings file it not writable, so it could not be automatically updated. TediCross will still work, with the modified settings, but you will see this warning until you update your settings file"
+			);
 
 			// Write the settings to temp instead
 			const tmpPath = path.join(os.tmpdir(), "tedicross-settings.yaml");
 			try {
 				fs.writeFileSync(tmpPath, yaml);
-				logger.info(`The new settings file has instead been written to '${tmpPath}'. Copy it to its proper location to get rid of the warning`);
+				logger.info(
+					`The new settings file has instead been written to '${tmpPath}'. Copy it to its proper location to get rid of the warning`
+				);
 			} catch (err) {
-				logger.warn(`An attempt was made to put the modified settings file at '${tmpPath}', but it could not be done. See the following error message`);
+				logger.warn(
+					`An attempt was made to put the modified settings file at '${tmpPath}', but it could not be done. See the following error message`
+				);
 				logger.warn(err);
 			}
 		}
@@ -95,7 +107,7 @@ const dcBot = new Discord.Client();
 const messageMap = new MessageMap();
 
 // Create the bridge map
-const bridgeMap = new BridgeMap(settings.bridges.map((bridgeSettings) => new Bridge(bridgeSettings)));
+const bridgeMap = new BridgeMap(settings.bridges.map(bridgeSettings => new Bridge(bridgeSettings)));
 
 /*********************
  * Set up the bridge *

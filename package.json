@@ -1,6 +1,6 @@
 {
   "name": "tedicross",
-  "version": "0.8.3",
+  "version": "0.10.6",
   "description": "Better DiteCross",
   "license": "MIT",
   "repository": {
@@ -9,44 +9,25 @@
   },
   "scripts": {
     "start": "node main.js",
+    "start:dev": "nodemon --inspect main.js -i data/",
     "lint": "eslint ."
   },
   "dependencies": {
-    "discord.js": "^11.4.2",
-    "js-yaml": "^3.12.1",
-    "mime": "^2.4.0",
-    "moment": "^2.23.0",
-    "ramda": "^0.25.0",
-    "request": "^2.88.0",
-    "simple-markdown": "^0.3.3",
-    "telegraf": "^3.26.0",
-    "yargs": "^13.2.2"
+    "discord.js": "^12.2.0",
+    "js-yaml": "^3.13.1",
+    "mime": "^2.4.4",
+    "moment": "^2.24.0",
+    "ramda": "^0.27.0",
+    "semver": "^7.3.4",
+    "simple-markdown": "^0.7.2",
+    "telegraf": "^3.38.0",
+    "yargs": "^13.3.0"
   },
   "devDependencies": {
-    "eslint": "^4.19.1"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "ecmaVersion": 2018
-    },
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": "eslint:recommended",
-    "rules": {
-      "indent": [
-        "error",
-        "tab",
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "linebreak-style": "error",
-      "quotes": "error",
-      "semi": "error",
-      "no-var": "error",
-      "prefer-const": "error"
-    }
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.5"
   }
 }
