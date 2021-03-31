@@ -1,3 +1,5 @@
+![alt text](https://github.com/absolute-community/dt-bridge/blob/master/src/Img/Absolute-Black-With-Logo-Ancillaries.png?raw=true)
+
 Absolute - Discord & Telegram Bridge "DisTel"
 =========
 DisTel is a bot which bridges a chat in [Telegram](https://telegram.org) with a channel in [Discord](https://discordapp.com/).
